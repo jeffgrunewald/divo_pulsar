@@ -47,3 +47,10 @@ See [Divo GitHub](https://github.com/smartcitiesdata/divo) or [Divo Hex Document
 See [Pulsar Dockerhub](https://hub.docker.com/r/apachepulsar/pulsar) for further documentation
 on using and configuring the features of the container image itself.
 See [Pulsar source](https://pulsar.apache.org/) for the full codebase behind Pulsar
+
+### Health Check
+Contrary to obvious wisdom, the health check for the service does _not_ base itself on the return of the Pulsar Admin APIs
+`/brokers/health` endpoint. Through use of the tool, certain functionality of the cluster was found to still not be ready to
+receive client requests, such as trying to write to the default tenant/namespace. As a result, the health check has been rewritten
+to ensure the default tenant/namespace is ready to receive read and write requests before the container is judged to be ready
+as a standin for a fully-functional system.

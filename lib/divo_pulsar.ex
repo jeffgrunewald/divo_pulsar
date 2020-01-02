@@ -37,7 +37,7 @@ defmodule DivoPulsar do
         healthcheck: %{
           test: [
             "CMD-SHELL",
-            "curl http://localhost:8080/admin/v2/brokers/health | grep 'ok' || exit 1"
+            "curl -I http://localhost:8080/admin/v2/namespaces/public/default | grep '200' || exit 1"
           ],
           interval: "5s",
           timeout: "10s",
