@@ -1,0 +1,26 @@
+name: CI
+on:
+  pull_request:
+    branches:
+      - master
+jobs:
+  unit:
+    name: Unit Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-elixir@v1.2.0
+        with:
+          otp-version: 21.3
+          elixir-version: 1.8.2
+      - name: Get depedencies
+        run: |
+          mix local.rebar --force
+          mix local.hex --force
+          mix deps.get
+      - name: Run formatter
+        run: |
+          mix format --check-formatted
+      - name: Run unit tests
+        run: |
+          mix test
